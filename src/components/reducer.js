@@ -1,22 +1,18 @@
 export const initialState = {
-  currentPost: {},
-  visibleModal: {
-    addArticle: false,
-    fullPost: false,
-  },
+  modalArticle: {},
   articles: [],
-};
+}
 
 export function reducer(state, action) {
   switch (action.type) {
-    case 'OPEN_MODAL':
-      return { ...state, visibleModal: { ...state.visivleModal, [action.payload.name]: true }, currentPost: action.payload.obj };
-    case 'CLOSE_MODAL':
-      return { ...state, visibleModal: { ...state.visivleModal, [action.payload]: false } };
-    case 'ADD_ARTICLE':
+    case "RENEWAL_STATE":
       return {
         ...state,
-        visibleModal: { ...state.visivleModal, addArticle: false },
+        articles: action.payload,
+      }
+    case "ADD_ARTICLE":
+      return {
+        ...state,
         articles: [
           ...state.articles,
           {
@@ -26,19 +22,20 @@ export function reducer(state, action) {
             id: action.payload.id,
           },
         ],
-      };
-    case 'REMOVE_ARTICLE':
+      }
+    case "REMOVE_ARTICLE":
       return {
         ...state,
-        visibleModal: { ...state.visibleModal },
-        articles: state.articles.filter((article) => article.id !== action.payload),
-      };
-    case 'RENEWAL_STATE':
+        articles: state.articles.filter(
+          (article) => article.id !== action.payload
+        ),
+      }
+    case "SHOW_ARTICLE":
       return {
         ...state,
-        articles: action.payload
+        modalArticle: { ...action.payload },
       }
     default:
-      return state;
+      return state
   }
 }
